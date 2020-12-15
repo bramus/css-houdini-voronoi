@@ -126,7 +126,7 @@ To properly animate the Custom Properties you need to register them. Include thi
 }
 @property --voronoi-line-width {
     syntax: "<integer>";
-    initial-value: 2;
+    initial-value: 1;
     inherits: false;
 }
 @property --voronoi-dot-color {
@@ -136,7 +136,7 @@ To properly animate the Custom Properties you need to register them. Include thi
 }
 @property --voronoi-dot-size {
 	syntax: '<integer>';
-	initial-value: 4;
+	initial-value: 2;
 	inherits: false;
 }
 /* @property --voronoi-cell-colors {

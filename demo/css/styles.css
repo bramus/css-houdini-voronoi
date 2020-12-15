@@ -39,7 +39,7 @@
 }
 @property --voronoi-line-width {
 	syntax: '<integer>';
-	initial-value: 2;
+	initial-value: 1;
 	inherits: false;
 }
 @property --voronoi-dot-color {
@@ -49,7 +49,7 @@
 }
 @property --voronoi-dot-size {
 	syntax: '<integer>';
-	initial-value: 4;
+	initial-value: 2;
 	inherits: false;
 }
 /* @property --voronoi-cell-colors {

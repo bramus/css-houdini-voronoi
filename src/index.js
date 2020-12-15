@@ -106,9 +106,9 @@ class VoronoiHoudini {
             numberOfCells = 25,
             margin = 0,
             lineColor = '#000',
-            lineWidth = 2,
+            lineWidth = 1,
             dotColor = 'transparent',
-            dotSize = 4,
+            dotSize = 2,
             cellColors = ["#66ccff", "#99ffcc", "#00ffcc", "#33ccff", "#99ff99", "#66ff99", "#00ffff"],
             seed = 123456,
         ] = this.parseProps(properties);
@@ -143,7 +143,7 @@ class VoronoiHoudini {
                     ctx.fillStyle = cell.site.cellColor;
                     ctx.fill();
 
-                    ctx.lineWidth = lineWidth;	
+                    ctx.lineWidth = lineWidth;
                     ctx.strokeStyle = lineColor;
                     ctx.stroke();
                 }
