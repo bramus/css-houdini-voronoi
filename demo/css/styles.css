@@ -1,0 +1,73 @@
+.voronoi {
+	width: 100vw;
+	height: 100vh;
+
+	--voronoi-line-width: 10;
+	--voronoi-number-of-cells: 35;
+	--voronoi-line-color: #CCC;
+
+	background-image: paint(voronoi);
+	transition: --voronoi-line-color 0.5s ease-in-out, 
+	            --voronoi-margin 0.5s ease-in-out, 
+	            --voronoi-line-width 0.5s ease-in-out, 
+	            --voronoi-number-of-cells 0.5s ease-in-out;
+
+	cursor: pointer; /* to hint that it's clickable */
+	-webkit-user-select: none;
+}
+
+.voronoi:active {
+	--voronoi-line-color: paleturquoise;
+	--voronoi-margin: -50%;
+	--voronoi-line-width: 20;
+	--voronoi-number-of-cells: 25;
+}
+
+@property --voronoi-number-of-cells {
+	syntax: "<integer>";
+	initial-value: 25;
+	inherits: false;
+}
+@property --voronoi-margin {
+	syntax: "<percentage>";
+	initial-value: 0%;
+	inherits: false;
+}
+@property --voronoi-line-color {
+	syntax: "<color>";
+	initial-value: #000;
+	inherits: false;
+}
+@property --voronoi-line-width {
+	syntax: "<integer>";
+	initial-value: 5;
+	inherits: false;
+}
+
+
+
+
+
+
+
+
+
+/** non-essential demo styles below **/
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+div {
+	display: grid;
+	place-items: center;
+	font-size: calc(4vw + 1em);
+	padding: 5vw;
+	text-transform: uppercase;
+}

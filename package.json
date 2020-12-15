@@ -1,0 +1,44 @@
+{
+  "name": "css-houdini-voronoi",
+  "version": "1.0.0",
+  "description": "CSS Houdini Voronoi",
+  "source": "src/index.js",
+  "main": "dist/worklet.js",
+  "scripts": {
+    "build": "microbundle --entry src/index.js --output dist/worklet.js --no-pkg-main --format modern --no-sourcemap",
+    "postbuild": "cat src/rhill-voronoi-core.min.js >> dist/worklet.js",
+    "prepublish": "npm run build",
+    "dev": "node ./server.js & npm run watch",
+    "watch": "watch \"npm run build\" src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bramus/css-houdini-voronoi.git"
+  },
+  "keywords": [
+    "houdini",
+    "css-houdini",
+    "css",
+    "paintworklet",
+    "paint",
+    "worklet",
+    "background"
+  ],
+  "author": {
+    "name": "Bram(us) Van Damme",
+    "email": "bramus@bram.us",
+    "twitter": "@bramus",
+    "web": "https://www.bram.us/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bramus/css-houdini-voronoi/issues"
+  },
+  "homepage": "https://github.com/bramus/css-houdini-voronoi#readme",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "microbundle": "^0.12.4",
+    "watch": "^1.0.2"
+  }
+}
