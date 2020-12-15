@@ -99,6 +99,7 @@ _💡 The Worklet provides default values so defining them is not required_
 | --voronoi-margin | **Margin to keep from edges**, as a percentage (0% – 50%). _Set to a negative value to create a zoom effect_ | `0%` |
 | --voronoi-line-color | **Line Color** | `#000` |
 | --voronoi-line-width | **Line Width**, in pixels  | `3` |
+| --voronoi-cell-colors | **Cell Colors**, one or more colors to colorize the cells (comma separated). _Set to transparent to not colorize the cells_ | `#66ccff, #99ffcc, #00ffcc, #33ccff, #99ff99, #66ff99, #00ffff` |
 
 ## Animation
 
@@ -122,10 +123,17 @@ To properly animate the Custom Properties you need to register them. Include thi
 }
 @property --voronoi-line-width {
     syntax: "<integer>";
-    initial-value: 5;
+    initial-value: 2;
     inherits: false;
 }
+/* @property --voronoi-cell-colors {
+	syntax: '<color>#';
+	initial-value: #66ccff, #99ffcc, #00ffcc, #33ccff, #99ff99, #66ff99, #00ffff;
+	inherits: false;
+} */
 ```
+
+🐛 There currently is [a bug in Chrome which does not allow you to register custom properties with the `<color>#` syntax](https://bugs.chromium.org/p/chromium/issues/detail?id=1017421). To work around this issue, registering `--voronoi-cell-colors` is currently disabled.
 
 ## Demo / Development
 
@@ -135,7 +143,7 @@ If you've cloned the repo you can run `npm run dev` to launch the included demo.
 
 ## Acknowledgements
 
-The Voronoi Diagram is generated using a precompiled [Javascript-Voronoi](https://github.com/gorhill/Javascript-Voronoi). It is included in the build.
+The Voronoi Diagram is generated using a precompiled [Javascript-Voronoi](https://github.com/gorhill/Javascript-Voronoi). It is included in the build. Further inspiration was gotten from [this demo](https://library.fridoverweij.com/codelab/voronoi/voronoi_animation_2.html).
 
 ## License
 

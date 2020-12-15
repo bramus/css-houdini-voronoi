@@ -23,6 +23,7 @@ class VoronoiHoudini {
             '--voronoi-margin',
             '--voronoi-line-color',
             '--voronoi-line-width',
+            '--voronoi-cell-colors',
         ]
     }
 
@@ -32,22 +33,43 @@ class VoronoiHoudini {
             '--voronoi-margin',
             '--voronoi-line-color',
             '--voronoi-line-width',
-        ].map(prop => {
-            const value = props.get(prop).toString();
-            
-            switch (prop) {
-                case '--voronoi-number-of-cells':
-                case '--voronoi-line-width':
-                case '--voronoi-margin':	
-                    return parseInt(value);
+            '--voronoi-cell-colors',
+        ].map(propName => {
+            const prop = props.get(propName);
 
-                default:
-                    return value;
+            // Prop is not typed using @property (UnparsedValue) and not set either
+            // ~> Return undefined so that we can fall back to the default value during destructuring
+            if (prop instanceof CSSUnparsedValue && !prop.length) {
+                return undefined;
             }
+
+            // Prop is a UnitValue (Number, Percentage, Integer, …)
+            // ~> Return the value
+            if (prop instanceof CSSUnitValue) {
+                return prop.value;
+            }
+
+            // Special case: cell colors
+            // Ideally we would typehint this as <color># but there's a bug in Chrome that
+            // makes that useless. Therefore we don't allow to typehint it and manually split
+            // and convert the string.
+            // @see https://bugs.chromium.org/p/chromium/issues/detail?id=1017421
+            if (propName === '--voronoi-cell-colors') {
+                if (!(prop instanceof CSSUnparsedValue)) {
+                    console.warn('It seems that you have typehinted `--voronoi-cell-colors` as "<color>#" but unfortunately that\'s not working properly in Chrome until https://bugs.chromium.org/p/chromium/issues/detail?id=1017421 is fixed.\n\nPlease remove the @property declaration for --voronoi-cell-colors to fix this.\n\nFalling back to the default values for now.');
+                    return undefined;
+                }
+
+                return prop.toString().split(',').map(color => color.trim());
+            }
+
+            // All others
+            //~> Return the string
+            return prop.toString();
         });
     }
 
-    randomSites(width, height, margin, bbox, n) {
+    randomSites(width, height, margin, colors, n) {
         const rand = mulberry32(123456);
 
         // create vertices
@@ -62,41 +84,65 @@ class VoronoiHoudini {
         for (var i = 0; i < n; i++) {
             sites.push({
                 x: xo + rand() * dx + rand() / dx,
-                y: yo + rand() * dy + rand() / dy
+                y: yo + rand() * dy + rand() / dy,
+                cellColor: colors[i%colors.length],
             });
         }
+
         // this.voronoi.recycle(this.diagram);
         return sites;
     }
 
-    paint(ctx, geom, properties) {				
+    paint(ctx, geom, properties) {
+
+        // Parse the props, with fallback to default values
         const [
-            numberOfCells,
-            margin,
-            strokeStyle,
-            lineWidth,
+            numberOfCells = 25,
+            margin = 0,
+            strokeStyle = '#000',
+            lineWidth = 2,
+            colors = ["#66ccff", "#99ffcc", "#00ffcc", "#33ccff", "#99ff99", "#66ff99", "#00ffff"],
         ] = this.parseProps(properties);
+
+        ctx.clearRect(-geom.width, -geom.height, 2*geom.width, 2*geom.height);
                     
+        const tau = 2 * Math.PI;
         const bbox = { xl: -lineWidth, xr: geom.width + lineWidth, yt: -lineWidth, yb: geom.height + lineWidth };
-        this.sites = this.randomSites(geom.width, geom.height, margin/100, bbox, numberOfCells);
+        this.sites = this.randomSites(geom.width, geom.height, margin/100, colors, numberOfCells);
         this.voronoi.recycle(this.diagram);
         this.diagram = this.voronoi.compute(this.sites, bbox);
 
-        ctx.beginPath();
-        ctx.strokeStyle = strokeStyle;
-        ctx.lineWidth = lineWidth;
-        var edges = this.diagram.edges,
-            iEdge = edges.length,
-            edge,
-            v;
-        while (iEdge--) {
-            edge = edges[iEdge];
-            v = edge.va;
-            ctx.moveTo(v.x, v.y);
-            v = edge.vb;
-            ctx.lineTo(v.x, v.y);
+        // Draw Cells
+        let cells = this.diagram.cells;
+        for (let i=0; i<cells.length; i++) {				
+            let cell = cells[i];
+            if (cell) {
+                let halfedges = cell.halfedges;
+                let nHalfedges = halfedges.length;
+
+                // Draw Cell
+                if (nHalfedges > 2) {
+                    ctx.beginPath();
+                    ctx.lineWidth = lineWidth;	
+                    ctx.strokeStyle = strokeStyle;
+                    let vertex = halfedges[0].getStartpoint();
+                    ctx.moveTo(vertex.x, vertex.y);
+                    for (let j=0; j<nHalfedges; j++) {					
+                        vertex = halfedges[j].getEndpoint();
+                        ctx.lineTo(vertex.x,vertex.y);	
+                    }
+                    ctx.fillStyle = cell.site.cellColor;
+                    ctx.stroke();
+                    ctx.fill();
+                }
+
+                // Draw Site Location
+                ctx.beginPath();
+				ctx.fillStyle = strokeStyle;
+				ctx.arc(cell.site.x, cell.site.y, lineWidth, 0, tau);
+				ctx.fill();			
+            }								
         }
-        ctx.stroke();
     }
 }
 

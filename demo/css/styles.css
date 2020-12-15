@@ -2,9 +2,7 @@
 	width: 100vw;
 	height: 100vh;
 
-	--voronoi-line-width: 10;
-	--voronoi-number-of-cells: 35;
-	--voronoi-line-color: #CCC;
+	--voronoi-number-of-cells: 100;
 
 	background-image: paint(voronoi);
 	transition: --voronoi-line-color 0.5s ease-in-out, 
@@ -24,25 +22,30 @@
 }
 
 @property --voronoi-number-of-cells {
-	syntax: "<integer>";
+	syntax: '<integer>';
 	initial-value: 25;
 	inherits: false;
 }
 @property --voronoi-margin {
-	syntax: "<percentage>";
+	syntax: '<percentage>';
 	initial-value: 0%;
 	inherits: false;
 }
 @property --voronoi-line-color {
-	syntax: "<color>";
+	syntax: '<color>';
 	initial-value: #000;
 	inherits: false;
 }
 @property --voronoi-line-width {
-	syntax: "<integer>";
-	initial-value: 5;
+	syntax: '<integer>';
+	initial-value: 2;
 	inherits: false;
 }
+/* @property --voronoi-cell-colors {
+	syntax: '<color>#';
+	initial-value: #66ccff, #99ffcc, #00ffcc, #33ccff, #99ff99, #66ff99, #00ffff;
+	inherits: false;
+} */
 
 
 
