@@ -3,21 +3,22 @@
 	height: 100vh;
 
 	--voronoi-number-of-cells: 100;
+	--voronoi-dot-color: #000;
 
 	background-image: paint(voronoi);
 	transition: --voronoi-line-color 0.5s ease-in-out, 
 	            --voronoi-margin 0.5s ease-in-out, 
 	            --voronoi-line-width 0.5s ease-in-out, 
-	            --voronoi-number-of-cells 0.5s ease-in-out;
+	            --voronoi-number-of-cells 0.5s ease-in-out,
+				--voronoi-dot-color 0.5s ease-in-out,
+				--voronoi-dot-size 0.5s ease-in-out;
 
 	cursor: pointer; /* to hint that it's clickable */
 	-webkit-user-select: none;
 }
 
 .voronoi:active {
-	--voronoi-line-color: paleturquoise;
 	--voronoi-margin: -50%;
-	--voronoi-line-width: 20;
 	--voronoi-number-of-cells: 25;
 }
 
@@ -39,6 +40,16 @@
 @property --voronoi-line-width {
 	syntax: '<integer>';
 	initial-value: 2;
+	inherits: false;
+}
+@property --voronoi-dot-color {
+	syntax: '<color>';
+	initial-value: transparent;
+	inherits: false;
+}
+@property --voronoi-dot-size {
+	syntax: '<integer>';
+	initial-value: 4;
 	inherits: false;
 }
 /* @property --voronoi-cell-colors {

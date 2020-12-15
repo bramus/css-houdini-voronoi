@@ -23,6 +23,8 @@ class VoronoiHoudini {
             '--voronoi-margin',
             '--voronoi-line-color',
             '--voronoi-line-width',
+            '--voronoi-dot-color',
+            '--voronoi-dot-size',
             '--voronoi-cell-colors',
         ]
     }
@@ -33,6 +35,8 @@ class VoronoiHoudini {
             '--voronoi-margin',
             '--voronoi-line-color',
             '--voronoi-line-width',
+            '--voronoi-dot-color',
+            '--voronoi-dot-size',
             '--voronoi-cell-colors',
         ].map(propName => {
             const prop = props.get(propName);
@@ -69,7 +73,7 @@ class VoronoiHoudini {
         });
     }
 
-    randomSites(width, height, margin, colors, n) {
+    randomSites(width, height, margin, cellColors, n) {
         const rand = mulberry32(123456);
 
         // create vertices
@@ -85,7 +89,7 @@ class VoronoiHoudini {
             sites.push({
                 x: xo + rand() * dx + rand() / dx,
                 y: yo + rand() * dy + rand() / dy,
-                cellColor: colors[i%colors.length],
+                cellColor: cellColors[i%cellColors.length],
             });
         }
 
@@ -99,16 +103,18 @@ class VoronoiHoudini {
         const [
             numberOfCells = 25,
             margin = 0,
-            strokeStyle = '#000',
+            lineColor = '#000',
             lineWidth = 2,
-            colors = ["#66ccff", "#99ffcc", "#00ffcc", "#33ccff", "#99ff99", "#66ff99", "#00ffff"],
+            dotColor = 'transparent',
+            dotSize = 4,
+            cellColors = ["#66ccff", "#99ffcc", "#00ffcc", "#33ccff", "#99ff99", "#66ff99", "#00ffff"],
         ] = this.parseProps(properties);
 
         ctx.clearRect(-geom.width, -geom.height, 2*geom.width, 2*geom.height);
                     
         const tau = 2 * Math.PI;
         const bbox = { xl: -lineWidth, xr: geom.width + lineWidth, yt: -lineWidth, yb: geom.height + lineWidth };
-        this.sites = this.randomSites(geom.width, geom.height, margin/100, colors, numberOfCells);
+        this.sites = this.randomSites(geom.width, geom.height, margin/100, cellColors, numberOfCells);
         this.voronoi.recycle(this.diagram);
         this.diagram = this.voronoi.compute(this.sites, bbox);
 
@@ -122,25 +128,30 @@ class VoronoiHoudini {
 
                 // Draw Cell
                 if (nHalfedges > 2) {
-                    ctx.beginPath();
-                    ctx.lineWidth = lineWidth;	
-                    ctx.strokeStyle = strokeStyle;
                     let vertex = halfedges[0].getStartpoint();
+
+                    ctx.beginPath();
                     ctx.moveTo(vertex.x, vertex.y);
                     for (let j=0; j<nHalfedges; j++) {					
                         vertex = halfedges[j].getEndpoint();
                         ctx.lineTo(vertex.x,vertex.y);	
                     }
+
                     ctx.fillStyle = cell.site.cellColor;
-                    ctx.stroke();
                     ctx.fill();
+
+                    ctx.lineWidth = lineWidth;	
+                    ctx.strokeStyle = lineColor;
+                    ctx.stroke();
                 }
 
-                // Draw Site Location
-                ctx.beginPath();
-				ctx.fillStyle = strokeStyle;
-				ctx.arc(cell.site.x, cell.site.y, lineWidth, 0, tau);
-				ctx.fill();			
+                // Draw Site Location (dot)
+                if (dotColor && (dotColor != 'transparent')) {
+                    ctx.beginPath();
+                    ctx.fillStyle = dotColor;
+                    ctx.arc(cell.site.x, cell.site.y, dotSize, 0, tau);
+                    ctx.fill();
+                }
             }								
         }
     }

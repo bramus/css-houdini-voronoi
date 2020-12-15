@@ -99,6 +99,8 @@ _💡 The Worklet provides default values so defining them is not required_
 | --voronoi-margin | **Margin to keep from edges**, as a percentage (0% – 50%). _Set to a negative value to create a zoom effect_ | `0%` |
 | --voronoi-line-color | **Line Color** | `#000` |
 | --voronoi-line-width | **Line Width**, in pixels  | `3` |
+| --voronoi-dot-color | **Color of the dot in each cell**  | `transparent` |
+| --voronoi-dot-size | **Size of the dot in each cell**, in pixels  | `4` |
 | --voronoi-cell-colors | **Cell Colors**, one or more colors to colorize the cells (comma separated). _Set to transparent to not colorize the cells_ | `#66ccff, #99ffcc, #00ffcc, #33ccff, #99ff99, #66ff99, #00ffff` |
 
 ## Animation
@@ -125,6 +127,16 @@ To properly animate the Custom Properties you need to register them. Include thi
     syntax: "<integer>";
     initial-value: 2;
     inherits: false;
+}
+@property --voronoi-dot-color {
+	syntax: '<color>';
+	initial-value: transparent;
+	inherits: false;
+}
+@property --voronoi-dot-size {
+	syntax: '<integer>';
+	initial-value: 4;
+	inherits: false;
 }
 /* @property --voronoi-cell-colors {
 	syntax: '<color>#';
