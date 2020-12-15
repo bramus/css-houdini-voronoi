@@ -102,6 +102,7 @@ _💡 The Worklet provides default values so defining them is not required_
 | --voronoi-dot-color | **Color of the dot in each cell**  | `transparent` |
 | --voronoi-dot-size | **Size of the dot in each cell**, in pixels  | `4` |
 | --voronoi-cell-colors | **Cell Colors**, one or more colors to colorize the cells (comma separated). _Set to transparent to not colorize the cells_ | `#66ccff, #99ffcc, #00ffcc, #33ccff, #99ff99, #66ff99, #00ffff` |
+| --voronoi-seed | **Seed for the "predictable random" generator**, See [https://jakearchibald.com/2020/css-paint-predictably-random/](https://jakearchibald.com/2020/css-paint-predictably-random/) for details. | `123456` |
 
 ## Animation
 
@@ -143,6 +144,11 @@ To properly animate the Custom Properties you need to register them. Include thi
 	initial-value: #66ccff, #99ffcc, #00ffcc, #33ccff, #99ff99, #66ff99, #00ffff;
 	inherits: false;
 } */
+@property --voronoi-seed {
+  syntax: '<number>';
+  initial-value: 123456;
+  inherits: true;
+}
 ```
 
 🐛 There currently is [a bug in Chrome which does not allow you to register custom properties with the `<color>#` syntax](https://bugs.chromium.org/p/chromium/issues/detail?id=1017421). To work around this issue, registering `--voronoi-cell-colors` is currently disabled.
