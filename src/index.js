@@ -43,6 +43,28 @@ class VoronoiHoudini {
         ].map(propName => {
             const prop = props.get(propName);
 
+            // Cater for browsers that don't understand CSSUnparsedValue
+            if (typeof CSSUnparsedValue === 'undefined') {
+                if (!prop.length || prop === '') {
+                    return undefined;
+                }
+
+                switch (propName) {
+                    case '--voronoi-number-of-cells':
+                    case '--voronoi-margin':
+                    case '--voronoi-line-width':
+                    case '--voronoi-dot-size':
+                    case '--voronoi-seed':
+                        return parseInt(prop.toString());
+                    
+                    case '--voronoi-cell-colors':
+                        return prop.toString().split(',').map(color => color.trim());
+
+                    default:
+                        return prop.toString();
+                }
+            }
+
             // Prop is not typed using @property (UnparsedValue) and not set either
             // ~> Return undefined so that we can fall back to the default value during destructuring
             if (prop instanceof CSSUnparsedValue && !prop.length) {
