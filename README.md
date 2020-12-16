@@ -83,7 +83,7 @@ You can tweak the appearance of the Paint Worklet by setting some CSS Custom Pro
 
 | property | description | default value |
 | -------- | ----------- | ------------- |
-| --voronoi-number-of-cells | **Number of cells**, (integer) | `25` |
+| --voronoi-number-of-cells | **Number of cells**, (integer or `auto`). When set to `auto` it will adjust itself the number of cells based on the available space. | `25` |
 | --voronoi-margin | **Margin to keep from edges**, as a percentage (0% – 50%). _Set to a negative value to create a zoom effect_ | `0%` |
 | --voronoi-line-color | **Line Color** | `#000` |
 | --voronoi-line-width | **Line Width**, in pixels  | `3` |
@@ -117,7 +117,7 @@ To properly animate the Voronoi Custom Properties and to make use of the built-i
 
 ```css
 @property --voronoi-number-of-cells {
-    syntax: "<integer>";
+    syntax: "<integer> | auto";
     initial-value: 25;
     inherits: false;
 }

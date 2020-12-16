@@ -51,6 +51,9 @@ class VoronoiHoudini {
 
                 switch (propName) {
                     case '--voronoi-number-of-cells':
+                        if (prop.toString().trim() === 'auto') {
+                            return 'auto';
+                        }
                     case '--voronoi-margin':
                     case '--voronoi-line-width':
                     case '--voronoi-dot-size':
@@ -124,7 +127,7 @@ class VoronoiHoudini {
     paint(ctx, geom, properties) {
 
         // Parse the props, with fallback to default values
-        const [
+        let [
             numberOfCells = 25,
             margin = 0,
             lineColor = '#000',
@@ -134,6 +137,10 @@ class VoronoiHoudini {
             cellColors = ["#66ccff", "#99ffcc", "#00ffcc", "#33ccff", "#99ff99", "#66ff99", "#00ffff"],
             seed = 123456,
         ] = this.parseProps(properties);
+
+        if (numberOfCells === 'auto') {
+            numberOfCells = Math.max(2, Math.floor(geom.width / 30 + geom.height / 30));
+        }
 
         ctx.clearRect(-geom.width, -geom.height, 2*geom.width, 2*geom.height);
                     

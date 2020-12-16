@@ -29,7 +29,7 @@
 }
 
 @property --voronoi-number-of-cells {
-	syntax: '<integer>';
+	syntax: "<integer> | auto";
 	initial-value: 25;
 	inherits: false;
 }
