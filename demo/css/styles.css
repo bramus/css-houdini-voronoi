@@ -2,16 +2,11 @@
 	width: 100vw;
 	height: 100vh;
 
-	--voronoi-number-of-cells: 100;
+	--voronoi-number-of-cells: 20;
 	--voronoi-dot-color: #000;
 
 	background-image: paint(voronoi);
-	transition: --voronoi-line-color 0.5s ease-in-out, 
-	            --voronoi-margin 0.5s ease-in-out, 
-	            --voronoi-line-width 0.5s ease-in-out, 
-	            --voronoi-number-of-cells 0.5s ease-in-out,
-				--voronoi-dot-color 0.5s ease-in-out,
-				--voronoi-dot-size 0.5s ease-in-out;
+	transition: --voronoi-margin 0.5s ease-in-out;
 
 	cursor: pointer; /* to hint that it's clickable */
 	-webkit-user-select: none;
@@ -19,7 +14,18 @@
 
 .voronoi:active {
 	--voronoi-margin: -50%;
-	--voronoi-number-of-cells: 25;
+}
+
+@media(min-width: 70em) {
+	.voronoi {
+		--voronoi-number-of-cells: 70;
+	}
+}
+
+@media(min-width: 100em) {
+	.voronoi {
+		--voronoi-number-of-cells: 100;
+	}
 }
 
 @property --voronoi-number-of-cells {
