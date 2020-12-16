@@ -2,7 +2,8 @@
 
 A CSS Houdini Paint Worklet that draws a Voronoi Diagram as a background image
 
-![CSS Houdini Voronoi](https://github.com/bramus/css-houdini-voronoi/blob/main/assets/css-houdini-voronoi.png?raw=true)
+[![CSS Houdini Voronoi](https://github.com/bramus/css-houdini-voronoi/blob/main/assets/css-houdini-voronoi.png?raw=true)](https://codepen.io/bramus/pen/mdrWrGm)
+Demo: [https://codepen.io/bramus/pen/mdrWrGm](https://codepen.io/bramus/pen/mdrWrGm)
 
 ## Usage
 
@@ -78,20 +79,7 @@ To use Voronoi Paint Worklet you need to set the `background-image` property to 
 
 ## Configuration
 
-You can tweak the appearance of the Cicles Paint Worklet by setting some CSS Custom Properties
-
-_💡 The Worklet provides default values so defining them is not required_
-
-```css
-.element {
-    --voronoi-number-of-cells: 100;
-    --voronoi-margin: 5%;
-    --voronoi-line-color: #000;
-    --voronoi-line-width: 4;
-
-    background-image: paint(voronoi);
-}
-```
+You can tweak the appearance of the Paint Worklet by setting some CSS Custom Properties
 
 | property | description | default value |
 | -------- | ----------- | ------------- |
@@ -104,9 +92,28 @@ _💡 The Worklet provides default values so defining them is not required_
 | --voronoi-cell-colors | **Cell Colors**, one or more colors to colorize the cells (comma separated). _Set to transparent to not colorize the cells_ | `#66ccff, #99ffcc, #00ffcc, #33ccff, #99ff99, #66ff99, #00ffff` |
 | --voronoi-seed | **Seed for the "predictable random" generator**, See [https://jakearchibald.com/2020/css-paint-predictably-random/](https://jakearchibald.com/2020/css-paint-predictably-random/) for details. | `123456` |
 
-## Animation
+_💡 The Worklet provides default values so defining them is not required_
 
-To properly animate the Custom Properties you need to register them. Include this CSS Snippet to do so:
+### Example
+
+```css
+.element {
+    --voronoi-number-of-cells: 100;
+    --voronoi-margin: 5%;
+    --voronoi-line-color: #000;
+    --voronoi-line-width: 4;
+    --voronoi-dot-color: rgba(0,0,0,0.2);
+    --voronoi-dot-size: 10;
+    --voronoi-cell-colors: #50514f, #f25f5c, #ffe066, #247ba0, #70c1b3;
+    --voronoi-seed: 654321;
+
+    background-image: paint(voronoi);
+}
+```
+
+### Registering the Voronoi Custom Properties
+
+To properly animate the Voronoi Custom Properties and to make use of the built-in syntax validation you [need to register the Custom Properties](https://web.dev/at-property/). Include this CSS Snippet to do so:
 
 ```css
 @property --voronoi-number-of-cells {
@@ -150,6 +157,8 @@ To properly animate the Custom Properties you need to register them. Include thi
   inherits: true;
 }
 ```
+
+💡 Inclusion of this code snippet is not required, but recommended.
 
 🐛 There currently is [a bug in Chrome which does not allow you to register custom properties with the `<color>#` syntax](https://bugs.chromium.org/p/chromium/issues/detail?id=1017421). To work around this issue, registering `--voronoi-cell-colors` is currently disabled.
 
