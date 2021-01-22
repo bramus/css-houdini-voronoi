@@ -169,7 +169,7 @@ class VoronoiHoudini {
                         ctx.lineTo(vertex.x,vertex.y);	
                     }
 
-                    ctx.fillStyle = cell.site.cellColor;
+                    ctx.fillStyle = cell.site.cellColor || 'transparent';
                     ctx.fill();
 
                     ctx.lineWidth = lineWidth;
