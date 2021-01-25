@@ -38,6 +38,7 @@
   },
   "homepage": "https://github.com/bramus/css-houdini-voronoi#readme",
   "devDependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "microbundle": "^0.12.4",
     "watch": "^1.0.2"

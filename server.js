@@ -2,10 +2,12 @@
 /* eslint no-console: "off" */
 
 const path = require('path');
+const cors = require('cors');
 const express = require('express');
 const app = express();
 
 // Run static server
+app.use(cors());
 app.use('/', express.static(path.join(__dirname, 'demo')));
 app.use('/js', express.static(path.join(__dirname, 'dist')));
 app.listen(8080);
