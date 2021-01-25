@@ -96,7 +96,7 @@ class VoronoiHoudini {
 
             // All others
             //~> Return the string
-            return prop.toString();
+            return prop.toString().trim();
         });
     }
 
