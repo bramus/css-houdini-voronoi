@@ -64,7 +64,7 @@ class VoronoiHoudini {
                         return prop.toString().split(',').map(color => color.trim());
 
                     default:
-                        return prop.toString();
+                        return prop.toString().trim();
                 }
             }
 
