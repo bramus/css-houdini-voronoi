@@ -148,7 +148,11 @@ class VoronoiHoudini {
         const bbox = { xl: -lineWidth, xr: geom.width + lineWidth, yt: -lineWidth, yb: geom.height + lineWidth };
         this.sites = this.randomSites(geom.width, geom.height, margin/100, cellColors, numberOfCells, seed);
         this.voronoi.recycle(this.diagram);
-        this.diagram = this.voronoi.compute(this.sites, bbox);
+        try {
+            this.diagram = this.voronoi.compute(this.sites, bbox);
+        } catch (e) {
+            return;
+        }
 
         // Draw Cells
         let cells = this.diagram.cells;
