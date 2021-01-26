@@ -27,6 +27,9 @@ class VoronoiHoudini {
             '--voronoi-dot-size',
             '--voronoi-cell-colors',
             '--voronoi-seed',
+            '--mouse-x',
+            '--mouse-y',
+            '--voronoi-highlight-color',
         ]
     }
 
@@ -40,6 +43,9 @@ class VoronoiHoudini {
             '--voronoi-dot-size',
             '--voronoi-cell-colors',
             '--voronoi-seed',
+            '--mouse-x',
+            '--mouse-y',
+            '--voronoi-highlight-color',
         ].map(propName => {
             const prop = props.get(propName);
 
@@ -59,6 +65,8 @@ class VoronoiHoudini {
                     case '--voronoi-line-width':
                     case '--voronoi-dot-size':
                     case '--voronoi-seed':
+                    case '--mouse-x':
+                    case '--mouse-y':
                         return parseInt(prop.toString());
                     
                     case '--voronoi-cell-colors':
@@ -129,22 +137,50 @@ class VoronoiHoudini {
             dotSize = 2,
             cellColors = ["#66ccff", "#99ffcc", "#00ffcc", "#33ccff", "#99ff99", "#66ff99", "#00ffff"],
             seed = 123456,
+            mouseX = -1,
+            mouseY = -1,
+            highlightColor = 'yellow',
         ] = this.parseProps(properties);
 
         if (numberOfCells === 'auto') {
             numberOfCells = Math.max(2, Math.floor(geom.width / 30 + geom.height / 30));
         }
 
+        // Clear Canvas
         ctx.clearRect(-geom.width, -geom.height, 2*geom.width, 2*geom.height);
-                    
+                 
         const tau = 2 * Math.PI;
         const bbox = { xl: -lineWidth, xr: geom.width + lineWidth, yt: -lineWidth, yb: geom.height + lineWidth };
         this.sites = this.randomSites(geom.width, geom.height, margin/100, cellColors, numberOfCells, seed);
+        
+        // Adjust Active Cell Position
+        this.sites[0].x = parseInt(mouseX);
+        this.sites[0].y = parseInt(mouseY);
+        this.sites[0].cellColor = highlightColor;
+
         this.voronoi.recycle(this.diagram);
         try {
             this.diagram = this.voronoi.compute(this.sites, bbox);
         } catch (e) {
             return;
+        }
+
+        // Draw Active Cell
+        var cell = this.diagram.cells[this.sites[0].voronoiId];
+        if (cell) {
+			var halfedges = cell.halfedges,
+                nHalfedges = halfedges.length;
+            if (nHalfedges > 2) {
+                var v = halfedges[0].getStartpoint();
+                ctx.beginPath();
+                ctx.moveTo(v.x,v.y);
+                for (var iHalfedge=0; iHalfedge<nHalfedges; iHalfedge++) {
+                    v = halfedges[iHalfedge].getEndpoint();
+                    ctx.lineTo(v.x,v.y);
+                }
+                ctx.fillStyle = '#faa';
+                ctx.fill();
+            }
         }
 
         // Draw Cells

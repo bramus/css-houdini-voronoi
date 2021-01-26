@@ -21,5 +21,13 @@
       CSS.paintWorklet.addModule('./js/worklet.js');
     })();
   </script>
+
+  <script>
+      const el = document.querySelector('.voronoi');
+      el.addEventListener('mousemove', evt => {
+        el.style.setProperty('--mouse-x', evt.offsetX);
+        el.style.setProperty('--mouse-y', evt.offsetY);
+      })
+  </script>
 </body>
 </html>

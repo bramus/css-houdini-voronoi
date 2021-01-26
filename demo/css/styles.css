@@ -68,6 +68,21 @@
   initial-value: 123456;
   inherits: true;
 }
+@property --mouse-x {
+  syntax: '<number>';
+  initial-value: undefined;
+  inherits: true;
+}
+@property --mouse-y {
+  syntax: '<number>';
+  initial-value: undefined;
+  inherits: true;
+}
+@property --voronoi-highlight-color {
+	syntax: '<color>';
+	initial-value: yellow;
+	inherits: false;
+}
 
 
 
