@@ -8,6 +8,7 @@
     "build": "microbundle --entry src/index.js --output dist/worklet.js --no-pkg-main --format modern --no-sourcemap",
     "postbuild": "cat src/rhill-voronoi-core.min.js >> dist/worklet.js",
     "prepublish": "npm run build",
+    "start": "npm run dev",
     "dev": "npm run server & npm run watch",
     "server": "node ./server.js",
     "watch": "watch \"npm run build\" src",
