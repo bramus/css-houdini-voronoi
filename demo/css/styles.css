@@ -58,11 +58,11 @@
 	initial-value: 2;
 	inherits: false;
 }
-/* @property --voronoi-cell-colors {
+@property --voronoi-cell-colors {
 	syntax: '<color>#';
 	initial-value: #66ccff, #99ffcc, #00ffcc, #33ccff, #99ff99, #66ff99, #00ffff;
 	inherits: false;
-} */
+}
 @property --voronoi-seed {
   syntax: '<number>';
   initial-value: 123456;

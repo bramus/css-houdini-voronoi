@@ -146,11 +146,11 @@ To properly animate the Voronoi Custom Properties and to make use of the built-i
 	initial-value: 2;
 	inherits: false;
 }
-/* @property --voronoi-cell-colors {
+@property --voronoi-cell-colors {
 	syntax: '<color>#';
 	initial-value: #66ccff, #99ffcc, #00ffcc, #33ccff, #99ff99, #66ff99, #00ffff;
 	inherits: false;
-} */
+}
 @property --voronoi-seed {
   syntax: '<number>';
   initial-value: 123456;
@@ -159,8 +159,6 @@ To properly animate the Voronoi Custom Properties and to make use of the built-i
 ```
 
 💡 Inclusion of this code snippet is not required, but recommended.
-
-🐛 There currently is [a bug in Chrome which does not allow you to register custom properties with the `<color>#` syntax](https://bugs.chromium.org/p/chromium/issues/detail?id=1017421). To work around this issue, registering `--voronoi-cell-colors` is currently disabled.
 
 ## Demo / Development
 
