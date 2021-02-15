@@ -43,8 +43,9 @@ class VoronoiHoudini {
         ].map(propName => {
             const prop = props.get(propName);
 
-            // Cater for browsers that don't speak CSS Typed OM
-            if (typeof CSSUnparsedValue === 'undefined') {
+            // Cater for browsers that don't speak CSS Typed OM and
+            // for browsers that do speak it, but haven't registered the props
+            if ((typeof CSSUnparsedValue === 'undefined') || (prop instanceof CSSUnparsedValue)) {
                 if (!prop.length || prop === '') {
                     return undefined;
                 }
